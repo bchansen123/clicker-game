@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Scorebox from "./components/Scorebox";
+import Image from "./components/Items";
+import imageItems from "./images.json";
 
 class App extends Component {
 
@@ -14,18 +17,32 @@ class App extends Component {
 
   shuffleImages = (imageItems) => {
     for (var i = imageItems.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * imageItems.length);
-      [imageItems[i], imageItems[j] = imageItems[j], imageItems[i]];
+      var j = Math.floor(Math.random() * [i] + 1);
+      [imageItems[i], imageItems[j]] = [imageItems[j], imageItems[i]];
     }
     return imageItems;
   };
 
-  clickedImages = () => {
+  clickedImages = (picture) => {
     var shuffle = this.shuffleImages(imageItems);
     this.setState({imageItems: shuffle});
+  
 
-    
+  if (this.state.picturesClicked.includes(picture)){
+    this.setState({
+      picturesClicked: [],
+      totalScore: 0
+    })}
+    else {
+      this.setState({
+        picturesClicked: this.state.picturesClicked.push[picture],
+        totalScore: this.state.totalScore++
+      });
+    }
+  if (this.state.score > this.state.highScore) {
+    this.setState({highScore: this.state.score})
   }
+  };
   render() {
     return (
       <div>
@@ -34,13 +51,15 @@ class App extends Component {
       highScore={this.state.highScore}
       />
 
-      {this.state.imageItems.map() => (
+      {this.state.imageItems.map(pictures => (
        <Image
-       imgId= {this.id}
-       name={this.name}
-       activeState={this.clicked}
+       imgId= {pictures.imageId}
+       name={pictures.name}
+       image={pictures.imageLink}
+       activeState={this.clickedImages}
+       
        />
-      )}
+      ))}
       </div>
     )
   }
